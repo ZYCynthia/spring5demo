@@ -1,0 +1,28 @@
+https://www.iteye.com/problems/51934
+
+spring 中加载xml配置文件的方式,好像有3种, xml是最常见的spring 应用系统配置源。Spring中的几种容器都支持使用xml装配bean，包括：
+    XmlBeanFactory ，
+    ClassPathXmlApplicationContext ，
+    FileSystemXmlApplicationContext ，
+    XmlWebApplicationContext
+
+    一:XmlBeanFactory 引用资源
+    Resource resource = new ClassPathResource("appcontext.xml");
+    BeanFactory factory = new XmlBeanFactory(resource);
+
+    二:ClassPathXmlApplicationContext  编译路径
+    ApplicationContext factory=new ClassPathXmlApplicationContext("classpath:appcontext.xml");
+    ApplicationContext factory=new ClassPathXmlApplicationContext("appcontext.xml");   // src目录下的
+    ApplicationContext factory=new ClassPathXmlApplicationContext("conf/appcontext.xml");   // src/conf 目录下的
+    ApplicationContext factory=new ClassPathXmlApplicationContext("file:G:/Test/src/appcontext.xml");
+
+    三 : 用文件系统的路径
+    ApplicationContext factory=new FileSystemXmlApplicationContext("src/appcontext.xml");
+    //使用了  classpath:  前缀,作为标志,  这样,FileSystemXmlApplicationContext 也能够读入classpath下的相对路径
+    ApplicationContext factory=new FileSystemXmlApplicationContext("classpath:appcontext.xml");
+    ApplicationContext factory=new FileSystemXmlApplicationContext("file:G:/Test/src/appcontext.xml");
+    ApplicationContext factory=new FileSystemXmlApplicationContext("G:/Test/src/appcontext.xml");
+
+    四: XmlWebApplicationContext   是专为Web工程定制的。
+    ServletContext servletContext = request.getSession().getServletContext();
+    ApplicationContext ctx = WebApplicationContextUtils.getWebApplicationContext(servletContext );
